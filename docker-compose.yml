@@ -22,5 +22,14 @@ services:
       - '4000:4000'
     volumes:
       - .:/app
+  test:
+    image: pet_hotel_api
+    command: mix test
+    environment:
+      - MIX_ENV=test
+    volumes:
+      - .:/app
+    links:
+      - db
 volumes:
   pgdata:
