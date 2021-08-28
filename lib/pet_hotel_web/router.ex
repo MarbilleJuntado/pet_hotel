@@ -7,6 +7,8 @@ defmodule PetHotelWeb.Router do
 
   scope "/api", PetHotelWeb do
     pipe_through :api
+
+    resources "/pet-owners", PetOwnerController, except: [:new, :edit]
   end
 
   # Enables LiveDashboard only for development
