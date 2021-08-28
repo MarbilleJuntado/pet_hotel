@@ -19,6 +19,7 @@ defmodule PetHotelWeb.PetControllerTest do
         name: "some name",
         email: "x@y.z"
       })
+
     pet_owner
   end
 
@@ -36,8 +37,15 @@ defmodule PetHotelWeb.PetControllerTest do
 
   describe "index" do
     test "lists all pet", %{conn: conn} do
+      pet_owner = fixture(:pet_owner)
+
+      attrs = Map.put(@create_attrs, :pet_owner_id, pet_owner.id)
+      {:ok, pet} = Pets.create_pet(attrs)
+
       conn = get(conn, Routes.pet_path(conn, :index))
-      assert json_response(conn, 200)["data"] == []
+      assert %{"pets" => pets} = json_response(conn, 200)
+      assert is_list(pets)
+      assert pet.id == List.first(pets)["id"]
     end
   end
 

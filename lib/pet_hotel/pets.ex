@@ -7,6 +7,7 @@ defmodule PetHotel.Pets do
   alias PetHotel.Repo
 
   alias PetHotel.Pets.Pet
+  alias PetHotel.Pets.Queries, as: PQ
 
   @doc """
   Returns the list of pet.
@@ -17,8 +18,15 @@ defmodule PetHotel.Pets do
       [%Pet{}, ...]
 
   """
-  def list_pet do
-    Repo.all(Pet)
+  def list_pet(params \\ %{}, preload \\ []) do
+    params = format_params(params)
+
+    params
+    |> PQ.query_all_pets(preload)
+    |> Repo.paginate(
+      page: params["page"],
+      page_size: params["page_size"]
+    )
   end
 
   @doc """
@@ -101,4 +109,23 @@ defmodule PetHotel.Pets do
   def change_pet(%Pet{} = pet, attrs \\ %{}) do
     Pet.changeset(pet, attrs)
   end
+
+  defp format_params(%{"page" => page, "page_size" => page_size} = params)
+       when is_integer(page) and is_integer(page_size),
+       do: params
+
+  defp format_params(%{"page" => page} = params)
+       when is_integer(page),
+       do: Map.put(params, "page_size", 10)
+
+  defp format_params(%{"page_size" => page_size} = params)
+       when is_integer(page_size),
+       do: Map.put(params, "page", 1)
+
+  defp format_params(params),
+    do:
+      Map.merge(params, %{
+        "page" => 1,
+        "page_size" => 10
+      })
 end

@@ -7,6 +7,7 @@ defmodule PetHotel.PetOwners do
   alias PetHotel.Repo
 
   alias PetHotel.PetOwners.PetOwner
+  alias PetHotel.PetOwners.Queries, as: POQ
 
   @doc """
   Returns the list of pet_owner.
@@ -17,8 +18,15 @@ defmodule PetHotel.PetOwners do
       [%PetOwner{}, ...]
 
   """
-  def list_pet_owner do
-    Repo.all(PetOwner)
+  def list_pet_owner(params \\ %{}, preload \\ []) do
+    params = format_params(params)
+
+    params
+    |> POQ.query_all_pet_owners(preload)
+    |> Repo.paginate(
+      page: params["page"],
+      page_size: params["page_size"]
+    )
   end
 
   @doc """
@@ -101,4 +109,23 @@ defmodule PetHotel.PetOwners do
   def change_pet_owner(%PetOwner{} = pet_owner, attrs \\ %{}) do
     PetOwner.changeset(pet_owner, attrs)
   end
+
+  defp format_params(%{"page" => page, "page_size" => page_size} = params)
+       when is_integer(page) and is_integer(page_size),
+       do: params
+
+  defp format_params(%{"page" => page} = params)
+       when is_integer(page),
+       do: Map.put(params, "page_size", 10)
+
+  defp format_params(%{"page_size" => page_size} = params)
+       when is_integer(page_size),
+       do: Map.put(params, "page", 1)
+
+  defp format_params(params),
+    do:
+      Map.merge(params, %{
+        "page" => 1,
+        "page_size" => 10
+      })
 end

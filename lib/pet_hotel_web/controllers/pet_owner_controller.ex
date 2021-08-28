@@ -6,9 +6,9 @@ defmodule PetHotelWeb.PetOwnerController do
 
   action_fallback PetHotelWeb.FallbackController
 
-  def index(conn, _params) do
-    pet_owner = PetOwners.list_pet_owner()
-    render(conn, "index.json", pet_owner: pet_owner)
+  def index(conn, params) do
+    page = PetOwners.list_pet_owner(params)
+    render(conn, "index.json", pet_owner_page: page)
   end
 
   def create(conn, %{"pet_owner" => pet_owner_params}) do

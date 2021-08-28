@@ -35,9 +35,16 @@ defmodule PetHotel.PetsTest do
       pet
     end
 
-    test "list_pet/0 returns all pet" do
+    test "list_pet/2 returns all pet" do
       pet = pet_fixture()
-      assert Pets.list_pet() == [pet]
+
+      assert Pets.list_pet() == %Scrivener.Page{
+               entries: [pet],
+               page_number: 1,
+               page_size: 10,
+               total_entries: 1,
+               total_pages: 1
+             }
     end
 
     test "get_pet!/1 returns the pet with given id" do

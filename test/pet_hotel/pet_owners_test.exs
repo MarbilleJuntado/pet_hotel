@@ -19,9 +19,16 @@ defmodule PetHotel.PetOwnersTest do
       pet_owner
     end
 
-    test "list_pet_owner/0 returns all pet_owner" do
+    test "list_pet_owner/2 returns all pet_owner" do
       pet_owner = pet_owner_fixture()
-      assert PetOwners.list_pet_owner() == [pet_owner]
+
+      assert PetOwners.list_pet_owner() == %Scrivener.Page{
+               entries: [pet_owner],
+               page_number: 1,
+               page_size: 10,
+               total_entries: 1,
+               total_pages: 1
+             }
     end
 
     test "get_pet_owner!/1 returns the pet_owner with given id" do

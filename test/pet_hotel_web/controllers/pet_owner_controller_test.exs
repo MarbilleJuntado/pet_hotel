@@ -25,8 +25,12 @@ defmodule PetHotelWeb.PetOwnerControllerTest do
 
   describe "index" do
     test "lists all pet_owner", %{conn: conn} do
+      {:ok, pet_owner} = PetOwners.create_pet_owner(@create_attrs)
+
       conn = get(conn, Routes.pet_owner_path(conn, :index))
-      assert json_response(conn, 200)["data"] == []
+      assert %{"pet_owners" => owners} = json_response(conn, 200)
+      assert is_list(owners)
+      assert pet_owner.id == List.first(owners)["id"]
     end
   end
 
