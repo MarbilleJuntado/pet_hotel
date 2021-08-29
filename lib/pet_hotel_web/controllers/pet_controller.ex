@@ -79,7 +79,7 @@ defmodule PetHotelWeb.PetController do
         |> Map.merge(%{
           201 =>
             Operation.response(
-              "Tag",
+              "Pet",
               "application/json",
               Schemas.Pet
             ),
