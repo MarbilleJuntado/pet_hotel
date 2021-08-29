@@ -17,7 +17,7 @@ docker-compose run api
 ### Sample requests
 Get list of pets: 
 ```
-curl http://localhost:4000/api/pet-owner
+curl http://localhost:4000/api/pet
 ```
 Create a new pet owner:
 ```
