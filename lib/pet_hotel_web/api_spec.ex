@@ -7,8 +7,9 @@ defmodule PetHotelWeb.ApiSpec do
   def spec do
     %OpenApi{
       servers: [
-        # Populate the Server info from a phoenix endpoint
-        Server.from_endpoint(Endpoint)
+        Endpoint
+        |> Server.from_endpoint()
+        |> Map.put(:url, Endpoint.url())
       ],
       info: %Info{
         title: "PetHotel Service",
