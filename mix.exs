@@ -50,7 +50,8 @@ defmodule PetHotel.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:scrivener_ecto, "~> 2.0"},
-      {:tesla, "~> 1.4", override: true}
+      {:tesla, "~> 1.4", override: true},
+      {:open_api_spex, "~> 3.4"}
     ]
   end
 

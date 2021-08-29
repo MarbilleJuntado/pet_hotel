@@ -24,6 +24,8 @@ defmodule PetHotelWeb do
       import Plug.Conn
       import PetHotelWeb.Gettext
       alias PetHotelWeb.Router.Helpers, as: Routes
+      alias PetHotelWeb.Schemas.Errors
+      alias OpenApiSpex.{Operation, Schema}
     end
   end
 

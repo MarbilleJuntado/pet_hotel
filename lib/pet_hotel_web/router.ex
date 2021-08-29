@@ -5,6 +5,10 @@ defmodule PetHotelWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :openapi do
+    plug(OpenApiSpex.Plug.PutApiSpec, module: PetHotelWeb.ApiSpec)
+  end
+
   scope "/api", PetHotelWeb do
     pipe_through :api
 
@@ -17,19 +21,13 @@ defmodule PetHotelWeb.Router do
     resources "/pet", PetController, except: [:new, :edit]
   end
 
-  # Enables LiveDashboard only for development
-  #
-  # If you want to use the LiveDashboard in production, you should put
-  # it behind authentication and allow only admins to access it.
-  # If your application does not have an admins-only section yet,
-  # you can use Plug.BasicAuth to set up some basic authentication
-  # as long as you are also using SSL (which you should anyway).
-  if Mix.env() in [:dev, :test] do
-    import Phoenix.LiveDashboard.Router
+  scope "/" do
+    get("/swaggerui", OpenApiSpex.Plug.SwaggerUI, path: "/api/openapi")
+  end
 
-    scope "/" do
-      pipe_through [:fetch_session, :protect_from_forgery]
-      live_dashboard "/dashboard", metrics: PetHotelWeb.Telemetry
-    end
+  scope "/api" do
+    pipe_through([:api, :openapi])
+
+    get("/openapi", OpenApiSpex.Plug.RenderSpec, [])
   end
 end
