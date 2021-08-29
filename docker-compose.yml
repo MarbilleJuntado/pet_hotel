@@ -11,7 +11,12 @@ services:
     volumes:
       - 'pgdata:/var/lib/postgresql/data'
   api:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        USER_ID: ${USER_ID:-0}
+        GROUP_ID: ${GROUP_ID:-0}
     depends_on:
       - db
     environment:
