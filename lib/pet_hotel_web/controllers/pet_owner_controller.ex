@@ -14,6 +14,7 @@ defmodule PetHotelWeb.PetOwnerController do
 
   def pets(conn, %{"id" => id} = params) do
     pet_owner = PetOwners.get_pet_owner!(id)
+
     page =
       params
       |> Map.delete("id")

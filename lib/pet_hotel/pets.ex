@@ -111,7 +111,7 @@ defmodule PetHotel.Pets do
   end
 
   defp format_params(%{"page" => page, "page_size" => page_size} = params)
-       when is_integer(page) and is_integer(page_size),
+       when not is_nil(page) and not is_nil(page_size),
        do: params
 
   defp format_params(%{"page" => page} = params)

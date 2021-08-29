@@ -11,8 +11,8 @@ defmodule PetHotelWeb.Router do
     resources "/pet-owner", PetOwnerController, except: [:new, :edit]
 
     get "/pet-owner/:id/pet",
-      PetOwnerController,
-      :pets
+        PetOwnerController,
+        :pets
 
     resources "/pet", PetController, except: [:new, :edit]
   end
