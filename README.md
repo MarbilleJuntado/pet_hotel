@@ -6,7 +6,7 @@ docker-compose build
 docker-compose run api mix do deps.get, deps.compile, ecto.setup
 ```
 
-## Run (in development)
+## Run
 ```
 docker-compose up
 ```
@@ -22,6 +22,13 @@ curl http://localhost:4000/api/pet
 Create a new pet owner:
 ```
 curl -XPOST -H "Content-type: application/json" -d '{"pet_owner": {"name": "jane", "email": "jane@example.com"}}' 'http://localhost:4000/api/pet-owner'
+```
+### Live Demo URL
+[Demo](https://pet-hotel-2021.herokuapp.com/)
+
+Usage:
+```
+curl https://pet-hotel-2021.herokuapp.com/api/pet-owner
 ```
 ## Test (in development)
 ```
