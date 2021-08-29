@@ -34,22 +34,25 @@ defmodule PetHotelWeb.PetOwnerController do
   end
 
   def show(conn, %{"id" => id}) do
-    pet_owner = PetOwners.get_pet_owner!(id)
-    render(conn, "show.json", pet_owner: pet_owner)
+    case PetOwners.get_pet_owner(id) do
+      %PetOwner{} = pet_owner ->
+        render(conn, "show.json", pet_owner: pet_owner)
+
+      _ ->
+        {:error, :not_found}
+    end
   end
 
   def update(conn, %{"id" => id, "pet_owner" => pet_owner_params}) do
-    pet_owner = PetOwners.get_pet_owner!(id)
-
-    with {:ok, %PetOwner{} = pet_owner} <- PetOwners.update_pet_owner(pet_owner, pet_owner_params) do
+    with %PetOwner{} = pet_owner <- PetOwners.get_pet_owner(id),
+         {:ok, %PetOwner{} = pet_owner} <- PetOwners.update_pet_owner(pet_owner, pet_owner_params) do
       render(conn, "show.json", pet_owner: pet_owner)
     end
   end
 
   def delete(conn, %{"id" => id}) do
-    pet_owner = PetOwners.get_pet_owner!(id)
-
-    with {:ok, %PetOwner{}} <- PetOwners.delete_pet_owner(pet_owner) do
+    with %PetOwner{} = pet_owner <- PetOwners.get_pet_owner(id),
+         {:ok, %PetOwner{}} <- PetOwners.delete_pet_owner(pet_owner) do
       send_resp(conn, :no_content, "")
     end
   end

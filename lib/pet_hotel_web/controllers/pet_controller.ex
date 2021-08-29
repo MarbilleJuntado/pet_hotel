@@ -21,22 +21,25 @@ defmodule PetHotelWeb.PetController do
   end
 
   def show(conn, %{"id" => id}) do
-    pet = Pets.get_pet!(id)
-    render(conn, "show.json", pet: pet)
+    case Pets.get_pet(id) do
+      %Pet{} = pet ->
+        render(conn, "show.json", pet: pet)
+
+      _ ->
+        {:error, :not_found}
+    end
   end
 
   def update(conn, %{"id" => id, "pet" => pet_params}) do
-    pet = Pets.get_pet!(id)
-
-    with {:ok, %Pet{} = pet} <- Pets.update_pet(pet, pet_params) do
+    with %Pet{} = pet <- Pets.get_pet(id),
+         {:ok, %Pet{} = pet} <- Pets.update_pet(pet, pet_params) do
       render(conn, "show.json", pet: pet)
     end
   end
 
   def delete(conn, %{"id" => id}) do
-    pet = Pets.get_pet!(id)
-
-    with {:ok, %Pet{}} <- Pets.delete_pet(pet) do
+    with %Pet{} = pet <- Pets.get_pet(id),
+         {:ok, %Pet{}} <- Pets.delete_pet(pet) do
       send_resp(conn, :no_content, "")
     end
   end

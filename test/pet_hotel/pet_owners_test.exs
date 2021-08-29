@@ -23,7 +23,7 @@ defmodule PetHotel.PetOwnersTest do
       pet_owner = pet_owner_fixture()
 
       assert %{entries: pet_owners} = PetOwners.list_pet_owner()
-      assert Enum.find(pet_owners, & &1.id == pet_owner.id)
+      assert Enum.find(pet_owners, &(&1.id == pet_owner.id))
     end
 
     test "get_pet_owner!/1 returns the pet_owner with given id" do

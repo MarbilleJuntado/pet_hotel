@@ -31,6 +31,11 @@ defmodule PetHotel.PetOwners do
 
   @doc """
   Gets a single pet_owner.
+  """
+  def get_pet_owner(id), do: Repo.get(PetOwner, id)
+
+  @doc """
+  Gets a single pet_owner.
 
   Raises `Ecto.NoResultsError` if the Pet owner does not exist.
 

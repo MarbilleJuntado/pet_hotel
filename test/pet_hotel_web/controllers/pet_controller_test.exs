@@ -44,7 +44,7 @@ defmodule PetHotelWeb.PetControllerTest do
 
       conn = get(conn, Routes.pet_path(conn, :index))
       assert %{"pets" => pets} = json_response(conn, 200)
-      assert Enum.find(pets, & &1["id"] == pet.id)
+      assert Enum.find(pets, &(&1["id"] == pet.id))
     end
   end
 
@@ -98,9 +98,8 @@ defmodule PetHotelWeb.PetControllerTest do
       conn = delete(conn, Routes.pet_path(conn, :delete, pet))
       assert response(conn, 204)
 
-      assert_error_sent 404, fn ->
-        get(conn, Routes.pet_path(conn, :show, pet))
-      end
+      conn = get(conn, Routes.pet_path(conn, :show, pet))
+      assert response(conn, 404)
     end
   end
 
