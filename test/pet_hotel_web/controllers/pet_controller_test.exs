@@ -44,8 +44,7 @@ defmodule PetHotelWeb.PetControllerTest do
 
       conn = get(conn, Routes.pet_path(conn, :index))
       assert %{"pets" => pets} = json_response(conn, 200)
-      assert is_list(pets)
-      assert pet.id == List.first(pets)["id"]
+      assert Enum.find(pets, & &1["id"] == pet.id)
     end
   end
 

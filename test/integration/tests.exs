@@ -128,7 +128,7 @@ defmodule PetHotel.Integration.Tests do
     refute Enum.all?(pet_ids, &(&1 in fetched_ids))
     refute other_pet_data["id"] in fetched_ids
 
-    Repo.delete_all(from(p in "pet", where: p.id in ^pet_ids))
+    Repo.delete_all(from(p in "pet", where: p.id in ^pet_ids or p.id == ^other_pet_data["id"]))
     Repo.delete_all(from(po in "pet_owner", where: po.id in ^owner_ids))
   end
 
