@@ -20,4 +20,11 @@ defmodule PetHotelWeb.FallbackController do
     |> put_view(PetHotelWeb.ErrorView)
     |> render(:"422")
   end
+
+  def call(conn, {:error, :internal_server_error}) do
+    conn
+    |> put_status(:internal_server_error)
+    |> put_view(CRMWeb.ErrorView)
+    |> render(:"500")
+  end
 end

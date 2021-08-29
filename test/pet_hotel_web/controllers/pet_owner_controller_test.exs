@@ -2,6 +2,7 @@ defmodule PetHotelWeb.PetOwnerControllerTest do
   use PetHotelWeb.ConnCase
 
   alias PetHotel.PetOwners
+  alias PetHotel.Pets
   alias PetHotel.PetOwners.PetOwner
 
   @create_attrs %{
@@ -31,6 +32,48 @@ defmodule PetHotelWeb.PetOwnerControllerTest do
       assert %{"pet_owners" => owners} = json_response(conn, 200)
       assert is_list(owners)
       assert pet_owner.id == List.first(owners)["id"]
+    end
+  end
+
+  describe "pets" do
+    setup [:create_pet_owner]
+
+    test "list all pets belonging to pet owner", %{
+      conn: conn,
+      pet_owner: pet_owner
+    } do
+      {:ok, other_owner} =
+        PetOwners.create_pet_owner(%{
+          "name" => "other name",
+          "email" => "x@y.z"
+        })
+
+      {:ok, owner_pet_1} =
+        Pets.create_pet(%{
+          "name" => "pet 1",
+          "pet_owner_id" => pet_owner.id
+        })
+
+      {:ok, owner_pet_2} =
+        Pets.create_pet(%{
+          "name" => "pet 2",
+          "pet_owner_id" => pet_owner.id
+        })
+
+      {:ok, other_pet} =
+        Pets.create_pet(%{
+          "name" => "other pet",
+          "pet_owner_id" => other_owner.id
+        })
+
+      conn = get(conn, Routes.pet_owner_path(conn, :pets, pet_owner))
+      assert %{"pets" => pets} = json_response(conn, 200)
+      assert is_list(pets)
+      assert pet_ids = Enum.map(pets, & &1["id"])
+
+      assert owner_pet_1.id in pet_ids
+      assert owner_pet_2.id in pet_ids
+      refute other_pet.id in pet_ids
     end
   end
 

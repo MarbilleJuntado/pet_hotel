@@ -2,6 +2,7 @@ defmodule PetHotelWeb.PetOwnerController do
   use PetHotelWeb, :controller
 
   alias PetHotel.PetOwners
+  alias PetHotel.Pets
   alias PetHotel.PetOwners.PetOwner
 
   action_fallback PetHotelWeb.FallbackController
@@ -9,6 +10,17 @@ defmodule PetHotelWeb.PetOwnerController do
   def index(conn, params) do
     page = PetOwners.list_pet_owner(params)
     render(conn, "index.json", pet_owner_page: page)
+  end
+
+  def pets(conn, %{"id" => id} = params) do
+    pet_owner = PetOwners.get_pet_owner!(id)
+    page =
+      params
+      |> Map.delete("id")
+      |> Map.put("pet_owner_id", pet_owner.id)
+      |> Pets.list_pet()
+
+    render(conn, "pets.json", pet_page: page)
   end
 
   def create(conn, %{"pet_owner" => pet_owner_params}) do
