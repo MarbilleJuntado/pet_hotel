@@ -26,7 +26,7 @@ defmodule PetHotel.MixProject do
   def application do
     [
       mod: {PetHotel.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :ssl]
     ]
   end
 
