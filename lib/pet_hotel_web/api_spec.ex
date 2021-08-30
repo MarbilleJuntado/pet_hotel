@@ -5,17 +5,10 @@ defmodule PetHotelWeb.ApiSpec do
 
   @impl OpenApi
   def spec do
-    IO.puts "Endpoint url: "
-    IO.inspect(Endpoint.url())
-
-    IO.puts "Endpoint struct url: "
-    IO.inspect(Endpoint.struct_url())
-
     %OpenApi{
       servers: [
-        Endpoint
-        |> Server.from_endpoint()
-        |> Map.put(:url, Endpoint.url())
+        # Populate the Server info from a phoenix endpoint
+        Server.from_endpoint(Endpoint)
       ],
       info: %Info{
         title: "PetHotel Service",
