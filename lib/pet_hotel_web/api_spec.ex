@@ -5,6 +5,12 @@ defmodule PetHotelWeb.ApiSpec do
 
   @impl OpenApi
   def spec do
+    IO.puts "Endpoint url: "
+    IO.inspect(Endpoint.url())
+
+    IO.puts "Endpoint struct url: "
+    IO.inspect(Endpoint.struct_url())
+
     %OpenApi{
       servers: [
         Endpoint
