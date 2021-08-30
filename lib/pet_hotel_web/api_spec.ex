@@ -8,7 +8,9 @@ defmodule PetHotelWeb.ApiSpec do
     %OpenApi{
       servers: [
         # Populate the Server info from a phoenix endpoint
-        Server.from_endpoint(Endpoint)
+        Endpoint
+        |> Server.from_endpoint()
+        |> Map.put(:url, build_url())
       ],
       info: %Info{
         title: "PetHotel Service",
@@ -20,5 +22,15 @@ defmodule PetHotelWeb.ApiSpec do
     }
     # discover request/response schemas from path specs
     |> OpenApiSpex.resolve_schema_modules()
+  end
+
+  defp build_url do
+    struct_url = Endpoint.struct_url()
+
+    if struct_url.port == 4000 do
+      Endpoint.url()
+    else
+      "https://#{struct_url.host}"
+    end
   end
 end
