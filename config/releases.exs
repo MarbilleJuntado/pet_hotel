@@ -24,7 +24,7 @@ secret_key_base =
     """
 
 config :pet_hotel, PetHotelWeb.Endpoint,
-  url: [host: "pet-hotel-2021.herokuapp.com", port: 443)],
+  url: [host: "pet-hotel-2021.herokuapp.com", port: 443],
   check_origin: ["//pet-hotel-2021.herokuapp.com"],
   https: [
     port: 443,
