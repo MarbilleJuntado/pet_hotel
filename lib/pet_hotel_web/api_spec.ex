@@ -13,7 +13,7 @@ defmodule PetHotelWeb.ApiSpec do
         |> Map.put(:url, build_url())
       ],
       info: %Info{
-        title: "PetHotel Service",
+        title: "Pet Hotel",
         version: Application.get_env(:pet_hotel, :version)
       },
       # populate the paths from a phoenix router
