@@ -27,7 +27,7 @@ config :pet_hotel, PetHotelWeb.Endpoint,
   url: [host: "pet-hotel-2021.herokuapp.com", port: 443)],
   check_origin: ["//pet-hotel-2021.herokuapp.com"],
   https: [
-    port: 443),
+    port: 443,
     transport_options: [socket_opts: []]
   ],
   server: true,
